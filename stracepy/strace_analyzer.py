@@ -23,6 +23,8 @@ from stracepy.utils import (
     LOGGER_NAME,
 )
 
+from stracepy.strace2csv import StraceParser
+
 ###############################################################################
 
 _LOGGER = logging.getLogger(LOGGER_NAME)
@@ -149,9 +151,11 @@ command_dict = {
 class StraceAnalyzer:
     """Implements strace log analyzer"""
 
-    def __init__(self, strace_csv):
-        exit_unless_accessible(strace_csv)
-        self.df_strace = df_from_csv_file(strace_csv)
+    def __init__(self, strace_log):
+        exit_unless_accessible(strace_log)
+        p = StraceParser(strace_log)
+        p.parse()
+        self.df_strace = p.df()
 
     def analyze_command(self, command):
         """Run the specified command"""

@@ -57,6 +57,9 @@ class StraceParser:
             for line in in_file:
                 self._parse_strace_line(line)
 
+    def df(self):
+        return pd.DataFrame(self.entries)
+
     def to_csv(self, filename):
         """Output the parsed data as csv file"""
         df = pd.DataFrame(self.entries)
